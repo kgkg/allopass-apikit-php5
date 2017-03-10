@@ -27,11 +27,12 @@ class AllopassApiConf
      */
     const FILE_PATH = '../../conf/conf.xml';
 
-
     /**
      * (ApiConf) Static instance of the class
      */
     private static $_instance = NULL;
+    protected $apiKey;
+    protected $privateKey;
 
     /**
      * (SimpleXMLElement) SimpleXML object representation of the configuration file
@@ -99,12 +100,16 @@ class AllopassApiConf
      *
      * @param string $email The mail account from which retrieve the API key
      * If email isn't provided or null, the first account is considered
-     *
      * @return string The public API key
+     * @throws \Exception
      */
     public function getApiKey($email = NULL)
     {
-        return (string)$this->_retrieveAccount($email)->keys->api_key;
+        if ($this->apiKey === null) {
+            throw new \Exception('apiKey not defined!');
+        }
+
+        return $this->apiKey;
     }
 
     /**
@@ -112,12 +117,38 @@ class AllopassApiConf
      *
      * @param string $email The mail account from which retrieve the private key
      * If email isn't provided or null, the first account is considered
-     *
      * @return string The private API key
+     * @throws \Exception
      */
     public function getPrivateKey($email = NULL)
     {
-        return (string)$this->_retrieveAccount($email)->keys->private_key;
+        if ($this->privateKey === null) {
+            throw new \Exception('apiKey not defined!');
+        }
+
+        return $this->privateKey;
+    }
+
+    /**
+     * @param string $apiKey
+     * @return AllopassApiConf
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = (string)$apiKey;
+
+        return $this;
+    }
+
+    /**
+     * @param string $privateKey
+     * @return AllopassApiConf
+     */
+    public function setPrivateKey($privateKey)
+    {
+        $this->privateKey = (string)$privateKey;
+
+        return $this;
     }
 
     /**
@@ -134,10 +165,10 @@ class AllopassApiConf
     {
         $accounts = $this->_xml->accounts->children();
 
-
         if ($email === NULL) {
             return $accounts[0];
-        } else {
+        }
+        else {
             foreach ($accounts as $account) {
                 if ($account->attributes()->email == $email) {
                     return $account;

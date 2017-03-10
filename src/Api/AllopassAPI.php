@@ -6,6 +6,7 @@
 
 namespace AllopassApiKit\Api;
 
+use AllopassApiKit\Model\AllopassApiConf;
 use AllopassApiKit\Model\AllopassApiResponse;
 use AllopassApiKit\Model\AllopassOnetimeButtonRequest;
 use AllopassApiKit\Model\AllopassOnetimeDiscreteButtonRequest;
@@ -34,16 +35,21 @@ class AllopassAPI
      */
     private $_configurationEmailAccount;
 
-
     /**
      * Constructor
      *
-     * @param string $configurationEmailAccount Email of the configurated account
+     * @param string $apiKey
+     * @param string $privateKey
+     * @internal param string $configurationEmailAccount Email of the configurated account
      * If email is null, the first account is considered
      */
-    public function __construct($configurationEmailAccount = NULL)
+    public function __construct($apiKey, $privateKey)
     {
-        $this->_configurationEmailAccount = $configurationEmailAccount;
+        $this->_configurationEmailAccount = '';
+
+        AllopassApiConf::getInstance()
+            ->setApiKey($apiKey)
+            ->setPrivateKey($privateKey);
     }
 
     /**
@@ -81,7 +87,7 @@ class AllopassAPI
      * }
      * @endcode
      */
-    public function getOnetimePricing(array $parameters, $mapping = TRUE)
+    public function getOnetimePricing(array $parameters, $mapping = true)
     {
         $request = new AllopassOnetimePricingRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -108,7 +114,7 @@ class AllopassAPI
      * }
      * @endcode
      */
-    public function getOnetimeDiscretePricing(array $parameters, $mapping = TRUE)
+    public function getOnetimeDiscretePricing(array $parameters, $mapping = true)
     {
         $request = new AllopassOnetimeDiscretePricingRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -132,7 +138,7 @@ class AllopassAPI
      * echo $response->getStatusDescription(), "\n-----\n";
      * @endcode
      */
-    public function validateCodes(array $parameters, $mapping = TRUE)
+    public function validateCodes(array $parameters, $mapping = true)
     {
         $request = new AllopassOnetimeValidateCodesRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -156,7 +162,7 @@ class AllopassAPI
      * echo $response->getBuyUrl(), "\n-----\n";
      * @endcode
      */
-    public function createButton(array $parameters, $mapping = TRUE)
+    public function createButton(array $parameters, $mapping = true)
     {
         $request = new AllopassOnetimeButtonRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -180,7 +186,7 @@ class AllopassAPI
      * echo $response->getBuyUrl(), "\n-----\n";
      * @endcode
      */
-    public function createDiscreteButton(array $parameters, $mapping = TRUE)
+    public function createDiscreteButton(array $parameters, $mapping = true)
     {
         $request = new AllopassOnetimeDiscreteButtonRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -204,7 +210,7 @@ class AllopassAPI
      * echo $response->getName(), "\n-----\n";
      * @endcode
      */
-    public function getProduct($id, array $parameters = [], $mapping = TRUE)
+    public function getProduct($id, array $parameters = [], $mapping = true)
     {
         $request = new AllopassProductDetailRequest(['id' => $id] + $parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -228,7 +234,7 @@ class AllopassAPI
      * echo $response->getCheckoutButton(), "\n-----\n";
      * @endcode
      */
-    public function prepareTransaction(array $parameters, $mapping = TRUE)
+    public function prepareTransaction(array $parameters, $mapping = true)
     {
         $request = new AllopassTransactionPrepareRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -253,7 +259,7 @@ class AllopassAPI
      * echo $response->getPaid()->getAmount(), "\n-----\n";
      * @endcode
      */
-    public function getTransaction($id, array $parameters = [], $mapping = TRUE)
+    public function getTransaction($id, array $parameters = [], $mapping = true)
     {
         $request = new AllopassTransactionDetailRequest(['id' => $id] + $parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -278,7 +284,7 @@ class AllopassAPI
      * echo $response->getPaid()->getAmount(), "\n-----\n";
      * @endcode
      */
-    public function getTransactionMerchant($id, array $parameters = [], $mapping = TRUE)
+    public function getTransactionMerchant($id, array $parameters = [], $mapping = true)
     {
         $request = new AllopassTransactionMerchantRequest(['id' => $id] + $parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -302,7 +308,7 @@ class AllopassAPI
      * echo $response->getStatusDescription(), "\n-----\n";
      * @endcode
      */
-    public function loginSubscription(array $parameters = [], $mapping = TRUE)
+    public function loginSubscription(array $parameters = [], $mapping = true)
     {
         $request = new AllopassSubscriptionLoginRequest($parameters, $mapping, $this->_configurationEmailAccount);
 
@@ -327,7 +333,7 @@ class AllopassAPI
      * echo $response->getSubscriberReference(), "\n-----\n";
      * @endcode
      */
-    public function getSubscription($subscriberReference, array $parameters = [], $mapping = TRUE)
+    public function getSubscription($subscriberReference, array $parameters = [], $mapping = true)
     {
         $request = new AllopassSubscriptionDetailRequest(['subscriber_reference' => $subscriberReference] + $parameters, $mapping, $this->_configurationEmailAccount);
 
