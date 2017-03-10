@@ -4,7 +4,7 @@
     "description": "Composer port of http://developer.allopass.com/apidoc/kit/php5/",
     "keywords": ["allopass","hipay"],
     "homepage": "https://github.com/kgkg/allopass-apikit-php5",
-    "license": "MIT",
+    "license": "2011 (c) Hi-media",
     "authors": [
         {
             "name": "HiPay",
