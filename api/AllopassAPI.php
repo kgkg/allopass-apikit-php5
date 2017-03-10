@@ -4,6 +4,8 @@
  * File of the class AllopassAPI
  */
 
+namespace AllopassApiKit;
+
 require_once dirname(__FILE__) . '/../model/AllopassOnetimePricingRequest.php';
 require_once dirname(__FILE__) . '/../model/AllopassOnetimeDiscretePricingRequest.php';
 require_once dirname(__FILE__) . '/../model/AllopassOnetimeValidateCodesRequest.php';
