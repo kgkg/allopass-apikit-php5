@@ -123,7 +123,7 @@ class AllopassApiConf
     public function getPrivateKey($email = NULL)
     {
         if ($this->privateKey === null) {
-            throw new \Exception('apiKey not defined!');
+            throw new \Exception('privateKey not defined!');
         }
 
         return $this->privateKey;
