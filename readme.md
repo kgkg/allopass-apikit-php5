@@ -7,5 +7,5 @@ All rights reserved to (c) 2011 HiPay.
 I do not claim ownership of any file in this repository!
 
 My changes:
-- changed require loading type to PSR-4 namespaces
+- changed "require" loading type to PSR-4 namespaces
 - add Composer support
